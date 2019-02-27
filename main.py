@@ -16,8 +16,8 @@ pressed_middleLine = False
 
 #TODO:  Add colors for the Formula text
 color1 = "#008000" #P(E|H) green
-color2 = "#4169E1" #P(H) red
-color3 = "#FF0000" #P(E|NOT-H) blue
+color2 = "#4169E1" #P(E|NOT-H) blue
+color3 = "#CD5C5C" #P(H) red
 
 root = Tk()
 def main():

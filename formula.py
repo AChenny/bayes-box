@@ -35,8 +35,8 @@ class Formula:
 
         #Background colors for the Formula text
         color1 = "#008000" #P(E|H) green
-        color2 = "#4169E1" #P(H) red
-        color3 = "#FF0000" #P(E|NOT-H) blue
+        color2 = "#4169E1" #P(E|NOT-H) blue
+        color3 = "#CD5C5C" #P(H) red
         secFormFrame.create_rectangle(100, 2, 180 ,35, fill=color1)
         secFormFrame.create_rectangle(105, 45, 240, 80, fill=color2)
         secFormFrame.create_rectangle(220, 2, 280, 35, fill=color3)
