@@ -1,5 +1,7 @@
 from tkinter import *
 import math
+import formula
+import label
 
 p_left = 0.50 #P(E|H)
 p_middle = 0.50 #P(H)
@@ -11,64 +13,94 @@ TOTALWIDTH = 600
 pressed_leftBox = False
 pressed_rightBox = False
 pressed_middleLine = False
-root = Tk()
 
+#TODO:  Add colors for the Formula text
+color1 = "#008000" #P(E|H) green
+color2 = "#4169E1" #P(H) red
+color3 = "#FF0000" #P(E|NOT-H) blue
+
+root = Tk()
 def main():
 	root.title("Bayesian Confirmation")
 
 	#Init canvas with seperators for each section
+	TOP_SEPERATOR_Y = 160
 	canvas = Canvas(root, width=1200, height=625)
 	canvas.pack()
-	canvas.create_line(350, 160, 350, 625, width=5)
-	canvas.create_line(0, 160, 1200, 160, width = 5)
+	canvas.create_line(350, TOP_SEPERATOR_Y, 350, 625, width=5)
+	canvas.create_line(0, TOP_SEPERATOR_Y, 1200, TOP_SEPERATOR_Y, width = 5)
 	#Copyright mark
 	canvas.create_text(40, 620, text= "© Lyle Crawford", fill="grey", font=("Times New Roman", 8))
 
 	#Formula Text-------------------------------------
-	#Text: P(H|E) = 
-	canvas.create_text(330, 90, text="P", font= ("Calibri", 23, "bold italic"))
-	canvas.create_text(398, 90, text="|     =", font=("Calibri", 23, "bold"), fill="black")
-	canvas.create_text(378, 90, text="(H E)  ", font= ("Calibri", 23))
+	VARIABLE_FORMULA_FRAME_WIDTH = 275
+	VARIABLE_FORMULA_FRAME_HEIGHT = 100
+	varFormFrame = Canvas(canvas, width = VARIABLE_FORMULA_FRAME_WIDTH, \
+	height= VARIABLE_FORMULA_FRAME_HEIGHT)
+	phe1 = label.ProbLabel(23, "H|E")
 
 	#Numerator Entry1[P(E|H)] x Entry2[P(H)]
-	c_entry1 = Entry(canvas, font=("Calibri", 20, "bold"))
-	canvas.create_window(545, 65, window = c_entry1, width= 60)
-	c_entry2 = Entry(canvas, font=("Calibri", 20, "bold"))
-	canvas.create_window(655, 65, window = c_entry2, width= 60)
-	c_label2 = Label(canvas, text = "x", font=("Calibri", 20))
-	canvas.create_window(600, 68, window= c_label2)
+	c_entry1 = Entry(varFormFrame, font=("Calibri", 20, "bold"), background=color1)
+	varFormFrame.create_window(90, 25, window = c_entry1, width= 60)
+	c_entry2 = Entry(varFormFrame, font=("Calibri", 20, "bold"), background=color3)
+	varFormFrame.create_window(185, 25, window = c_entry2, width= 60)
+	c_label2 = Label(varFormFrame, text = "x", font=("Calibri", 20))
+	varFormFrame.create_window(138, 25, window= c_label2)
 
 	#Denominator SAA + (Entry3[P(E|NOT-H) x P(NOT-H)])
-	c_label3 = Label(canvas, text="SAA + (", font=("Calibri", 20))
-	canvas.create_window(505, 115, window = c_label3)
-	c_entry3 = Entry(canvas, font=("Calibri", 20, "bold"))
-	canvas.create_window(590, 115, window = c_entry3, width=60)
+	c_label3 = Label(varFormFrame, text="SAA + (", font=("Calibri", 20))
+	varFormFrame.create_window(55, 80, window = c_label3)
+	c_entry3 = Entry(varFormFrame, font=("Calibri", 20, "bold"), background=color2)
+	varFormFrame.create_window(130, 80, window = c_entry3, width=60)
 	text3_var = StringVar()
-	c_label4 = Label(canvas, textvariable=text3_var, font=("Calibri", 20))
-	canvas.create_window(685, 115, window = c_label4)
+	c_label4 = Label(varFormFrame, textvariable=text3_var, font=("Calibri", 20))
+	varFormFrame.create_window(215, 80, window = c_label4)
+	varFormFrame.create_line(0, VARIABLE_FORMULA_FRAME_HEIGHT/2, VARIABLE_FORMULA_FRAME_WIDTH,\
+	VARIABLE_FORMULA_FRAME_HEIGHT/2, width = 5)
 
-	#Result = [P(E|H)]
+	#Result = [P(H|E)]
 	text4_var = StringVar()
 	c_label5 = Label(canvas, textvariable=text4_var, font=("Calibri", 30, "bold"))
-	canvas.create_window(825, 90, window= c_label5)
-	canvas.create_line(460, 90, 740, 90, width = 5)
 
-	#Labels on canvas-----------------------------------------------
+	#Canvas creations with all frames
+	phe1.draw(canvas, 80, TOP_SEPERATOR_Y/2)
+
+	#Formula template text
+	formTemp = formula.Formula(3, 4, 5, 375, 80)
+	formTemp.draw(canvas)
+
+	#Equals signs between formulas
+	canvas.create_text(160, TOP_SEPERATOR_Y/2, text="=", font=("Calibri", 23, ""))
+	canvas.create_text(600, TOP_SEPERATOR_Y/2, text="=", font=("Calibri", 23, ""))
+
+	#Variable formula text
+	canvas.create_window(775, 80, window= varFormFrame)
+
+	#PHE Variable text
+	canvas.create_window(1000, TOP_SEPERATOR_Y/2, window= c_label5)
+
+	#Labels on canvas graph-----------------------------------------------
+	#Add background colors to the variable numbers on this canvas graph
+	#color1 for P(E|H), color2 for P(E|NOT-H), and color3 for P(H)
+	#Background colors
+	canvas.create_rectangle(380, 405, 420, 425, fill=color1)
+	canvas.create_rectangle(1095, 405, 1135, 425, fill=color2)
+	phHighlight = canvas.create_rectangle(770, 570, 810, 590, fill=color3)
+
 	#P(E|H)
-	canvas.create_text(380, 370, text="P", font= ("Calibri", 15, "bold italic"))
-	canvas.create_text(406, 370, text="|", font=("Calibri", 15, "bold"), fill="black")
-	canvas.create_text(410, 370, text="(E H) ", font= ("Calibri", 15))
+	canPeh = label.ProbLabel(15, "E|H")
+	canPeh.draw(canvas, 380, 370)
 	leftLabel = canvas.create_text((400, 405), font=("Purisa", 15), text='=\n{0:.2f}'.format(p_left), justify=CENTER)
 
 	#P(E|NOT-H)
-	canvas.create_text(1082, 370, text="P", font= ("Calibri", 15, "bold italic"))
-	canvas.create_text(1108, 370, text="|", font=("Calibri", 15, "bold"), fill="black")
-	canvas.create_text(1130, 370, text="(E Not-H) ", font= ("Calibri", 15))
+	canPeNotH = label.ProbLabel(15, "E|Not-H")
+	canPeNotH.draw(canvas, 1082, 370)
 	rightLabel = canvas.create_text((1115, 405), font=("Purisa", 15), text='=\n{0:.2f}'.format(p_right, justify=CENTER))
 
 	#P(H)
-	canvas.create_text(708, 580, text="P", font= ("Calibri", 15, "bold italic"))
-	canvas.create_text(730, 580, text="(H) ", font= ("Calibri", 15))
+	canPH = label.ProbLabel(15, "HTags")
+	#(708, 580) is the middle
+	#canPH.draw(canvas, 708, 580)
 	middleLabel = canvas.create_text((773, 580), font=("Purisa", 15), text=' = {0:.2f}'.format(p_middle))
 
 	#Labels for Believe/Disbelieve and Confirmation/Disconfirmation that will are initially grey
@@ -78,14 +110,16 @@ def main():
 	disconfirmationLabel = canvas.create_text((240, 525), font=("Calibri", 17, "bold"), text="DISCONFIRMATION", fill="grey")
 
 	#Array to hold all the widgets to be changed in the draw function
-	widgets = [c_entry1, c_entry2, c_entry3, text3_var, text4_var, leftLabel, rightLabel, middleLabel, believeLabel, disbelieveLabel, confirmationLabel, disconfirmationLabel]
+	widgets = [c_entry1, c_entry2, c_entry3, text3_var, text4_var, leftLabel, \
+	rightLabel, middleLabel, believeLabel, disbelieveLabel, confirmationLabel,\
+	disconfirmationLabel, canPH, phHighlight]
 
-	#Init beginning boxes 
+	#Init beginning boxes
 	left_rect = [450, 400, 750, 550]
 	right_rect = [750, 400, 1050, 550]
 	middle_line = 750
 	draw(canvas, left_rect, right_rect, middle_line, widgets)
-	
+
 	#Bind functions keyboard and mouse functions, details in a comment in the function itself
 	canvas.bind("<Button-1>", lambda event: leftClick(event, canvas))
 	canvas.bind("<Motion>", lambda event: changeCursor(event, root, canvas))
@@ -106,7 +140,7 @@ def leftClick(event, canvas):
 
 	global lastPressedX
 	global lastPressedY
-	global pressed_leftBox 
+	global pressed_leftBox
 	global pressed_rightBox
 	global pressed_middleLine
 	lastPressedX = event.x
@@ -129,7 +163,7 @@ def leftClick(event, canvas):
 
 #Left click and drag will constantly update the boxes as the user moves their mouse while holding left click
 def leftClickDrag(event, canvas, widgets):
-	global lastPressedX 
+	global lastPressedX
 	global lastPressedY
 
 	#variables
@@ -193,6 +227,8 @@ def draw(canvas, leftBox, rightBox, middleLine, widgets):
 	canvas.delete("pi2")
 	canvas.delete("pi_h")
 
+	canvas.delete("canPH")
+
 	#Using the given coordinates create the left box and right box and the middle line
 	canvas.create_rectangle(leftBox[0], leftBox[1], leftBox[2], leftBox[3], fill="#00CC00", tags="left_rect", width=5)
 	canvas.create_rectangle(rightBox[0], rightBox[1], rightBox[2], rightBox[3], fill="#3333FF", tags="right_rect", width=5)
@@ -204,9 +240,9 @@ def draw(canvas, leftBox, rightBox, middleLine, widgets):
 	#Update the percentages in labels on the sides of the box
 	canvas.itemconfigure(widgets[5], text='=\n{0:.2f}'.format(round(p_left, 2)), justify=CENTER)
 	canvas.itemconfigure(widgets[6], text='=\n{0:.2f}'.format(round(p_right, 2)), justify=CENTER)
+	#widget7 is the P(H) label, need to either move it, or delete and redraw it
 	canvas.itemconfigure(widgets[7], text='= {0:.2f}'.format(round(1-p_middle,2)))
-
-
+	canvas.coords(widgets[7], middleLine + 30 , 580)
 
 	#Pi chart -----------------------------------------------------
 	canvas.create_oval((75,200,275,400), fill="#3333FF", tags="pi1")
@@ -241,23 +277,28 @@ def draw(canvas, leftBox, rightBox, middleLine, widgets):
 	widgets[1].insert(0, "{0:.2f}".format(1-p_middle))
 	widgets[3].set('x  {0:.2f}  )'.format(p_middle))
 	widgets[4].set('=  {0:.2f}'.format(p_he))
+	#Label for P(H)
+	widgets[12].draw(canvas, middleLine - 30, 580)
+	#Background color for P(H) on graph
+	canvas.coords(widgets[13], middleLine + 20, 570, middleLine + 60, 590)
+
 
 	#Believe/Disbelieve and Confirmation/Disconfirmation Thresholds
 	if round(p_he, 2) == 0.50:
 		canvas.itemconfigure(widgets[8], fill="grey")
 		canvas.itemconfigure(widgets[9], fill="grey")
-		
+
 	elif p_he > 0.50:
 		canvas.itemconfigure(widgets[8], fill="black")
 		canvas.itemconfigure(widgets[9], fill="grey")
-	elif p_he < 0.50: 
+	elif p_he < 0.50:
 		canvas.itemconfigure(widgets[9], fill="black")
 		canvas.itemconfigure(widgets[8], fill="grey")
 
 	if round(p_he, 2) == (round(1-p_middle, 2)):
 		canvas.itemconfigure(widgets[10], fill="grey")
 		canvas.itemconfigure(widgets[11], fill="grey")
-		
+
 	elif round(p_he, 2) > (round(1-p_middle, 2)):
 		canvas.itemconfigure(widgets[10], fill="black")
 		canvas.itemconfigure(widgets[11], fill="grey")
@@ -286,18 +327,18 @@ def updateAll(canvas, widgets):
 	p_middle = 1-(float(widgets[1].get()))
 	p_right = float(widgets[2].get())
 
-	#MINMAX VALUES 
-	if p_left >= 1: 
+	#MINMAX VALUES
+	if p_left >= 1:
 		p_left = 1
 	elif p_left <= 0:
 		p_left = 0
 
-	if p_middle >= 1: 
+	if p_middle >= 1:
 		p_middle = 1
 	elif p_middle <= 0:
 		p_middle = 0
 
-	if p_right >= 1: 
+	if p_right >= 1:
 		p_right = 1
 	elif p_right <= 0:
 		p_right = 0
@@ -330,7 +371,7 @@ def changeCursor(event, root, canvas):
 
 	elif leftBox[2] - 5 <= x <= leftBox[2] + 5 and 250 <= y <= 550:
 		root.config(cursor='sb_h_double_arrow')
-	else: 
+	else:
 		root.config(cursor="")
 
 #Take a number then round it to the nearest third or sixth
@@ -358,8 +399,8 @@ def round_to_near(number, third):
 
 		if x == 0.0:
 			newNumber = number
-			
-		elif x == round(((1/6) % 1), 2): 
+
+		elif x == round(((1/6) % 1), 2):
 			newNumber = number - 1
 
 		elif x == round(((2/6) % 1), 2):
@@ -367,23 +408,15 @@ def round_to_near(number, third):
 
 		elif x == round(((3/6) % 1), 2):
 			newNumber = number + 3
-			
+
 
 		elif x == round(((4/6) % 1), 2):
 			newNumber = number + 2
-			
-		
+
+
 		elif x == round(((5/6) % 1), 2):
 			newNumber = number + 1
 
 		return newNumber
 
 main()
-
-
-
-
-
-
-
-
