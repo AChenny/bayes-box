@@ -37,21 +37,21 @@ class Formula:
         color1 = "#90FF93" #P(E|H) green
         color2 = "#90B1FF" #P(E|NOT-H) blue
         color3 = "#FF9090" #P(H) red
-        secFormFrame.create_rectangle(100, 2, 180 ,35, fill=color1)
-        secFormFrame.create_rectangle(105, 45, 240, 80, fill=color2)
-        secFormFrame.create_rectangle(220, 2, 280, 35, fill=color3)
+        secFormFrame.create_rectangle(90, 2, 170,35, fill=color1)
+        secFormFrame.create_rectangle(95, 45, 230, 80, fill=color2)
+        secFormFrame.create_rectangle(230, 2, 290, 35, fill=color3)
 
         #NUMERATOR
         #P(E|H)
         peh1 = label.ProbLabel(23, "E|H")
-        peh1.draw(secFormFrame, 110, 15)
+        peh1.draw(secFormFrame, 100, 15)
 
         # x
         secFormFrame.create_text(200, 15, text="x", font=("Calibri", 23, ""))
 
         # P(H)
         ph1 = label.ProbLabel(23, "H")
-        ph1.draw(secFormFrame, 230, 15)
+        ph1.draw(secFormFrame, 240, 15)
 
 
         #Division line
@@ -59,13 +59,13 @@ class Formula:
 
         #Denominator
         #SAA
-        secFormFrame.create_text(60, 60, text="SAA + (", font=("Calibri", 23, ""))
+        secFormFrame.create_text(45, 60, text="SAA + (", font=("Calibri", 23, ""))
         secFormFrame.create_text(375, 60, text=")", font=("Calibri", 23, ""))
         #P(E|Not-H)
         eNotH1 = label.ProbLabel(23, "E|Not-H")
-        eNotH1.draw(secFormFrame, 115, 60)
+        eNotH1.draw(secFormFrame, 105, 60)
 
-        secFormFrame.create_text(250, 60, text="x", font=("Calibri", 23, ""))
+        secFormFrame.create_text(245, 60, text="x", font=("Calibri", 23, ""))
 
         #P(Not-H)
         notH1 = label.ProbLabel(23, "Not-H")

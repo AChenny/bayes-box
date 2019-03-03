@@ -49,12 +49,12 @@ def main():
 
 	#Denominator SAA + (Entry3[P(E|NOT-H) x P(NOT-H)])
 	c_label3 = Label(varFormFrame, text="SAA + (", font=("Calibri", 20))
-	varFormFrame.create_window(55, 80, window = c_label3)
+	varFormFrame.create_window(55, 75, window = c_label3)
 	c_entry3 = Entry(varFormFrame, font=("Calibri", 20, "bold"), background=color2)
-	varFormFrame.create_window(130, 80, window = c_entry3, width=60)
+	varFormFrame.create_window(130, 75, window = c_entry3, width=60)
 	text3_var = StringVar()
 	c_label4 = Label(varFormFrame, textvariable=text3_var, font=("Calibri", 20))
-	varFormFrame.create_window(215, 80, window = c_label4)
+	varFormFrame.create_window(215, 75, window = c_label4)
 	varFormFrame.create_line(0, VARIABLE_FORMULA_FRAME_HEIGHT/2, VARIABLE_FORMULA_FRAME_WIDTH,\
 	VARIABLE_FORMULA_FRAME_HEIGHT/2, width = 3)
 
@@ -63,10 +63,10 @@ def main():
 	c_label5 = Label(canvas, textvariable=text4_var, font=("Calibri", 30, "bold"))
 
 	#Canvas creations with all frames
-	phe1.draw(canvas, 80, TOP_SEPERATOR_Y/2)
+	phe1.draw(canvas, 75, TOP_SEPERATOR_Y/2)
 
 	#Formula template text
-	formTemp = formula.Formula(3, 4, 5, 375, 80)
+	formTemp = formula.Formula(3, 4, 5, 375, 75)
 	formTemp.draw(canvas)
 
 	#Equals signs between formulas
