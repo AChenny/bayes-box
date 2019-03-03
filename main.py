@@ -15,9 +15,9 @@ pressed_rightBox = False
 pressed_middleLine = False
 
 #TODO:  Add colors for the Formula text
-color1 = "#008000" #P(E|H) green
-color2 = "#4169E1" #P(E|NOT-H) blue
-color3 = "#CD5C5C" #P(H) red
+color1 = "#90FF93" #P(E|H) green
+color2 = "#90B1FF" #P(E|NOT-H) blue
+color3 = "#FF9090" #P(H) red
 
 root = Tk()
 def main():
@@ -56,7 +56,7 @@ def main():
 	c_label4 = Label(varFormFrame, textvariable=text3_var, font=("Calibri", 20))
 	varFormFrame.create_window(215, 80, window = c_label4)
 	varFormFrame.create_line(0, VARIABLE_FORMULA_FRAME_HEIGHT/2, VARIABLE_FORMULA_FRAME_WIDTH,\
-	VARIABLE_FORMULA_FRAME_HEIGHT/2, width = 5)
+	VARIABLE_FORMULA_FRAME_HEIGHT/2, width = 3)
 
 	#Result = [P(H|E)]
 	text4_var = StringVar()

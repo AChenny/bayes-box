@@ -34,9 +34,9 @@ class Formula:
         height=SECOND_FORMULA_FRAME_HEIGHT)
 
         #Background colors for the Formula text
-        color1 = "#008000" #P(E|H) green
-        color2 = "#4169E1" #P(E|NOT-H) blue
-        color3 = "#CD5C5C" #P(H) red
+        color1 = "#90FF93" #P(E|H) green
+        color2 = "#90B1FF" #P(E|NOT-H) blue
+        color3 = "#FF9090" #P(H) red
         secFormFrame.create_rectangle(100, 2, 180 ,35, fill=color1)
         secFormFrame.create_rectangle(105, 45, 240, 80, fill=color2)
         secFormFrame.create_rectangle(220, 2, 280, 35, fill=color3)
@@ -55,7 +55,7 @@ class Formula:
 
 
         #Division line
-        secFormFrame.create_line(0, (SECOND_FORMULA_FRAME_HEIGHT/2), SECOND_FORMULA_FRAME_WIDTH, (SECOND_FORMULA_FRAME_HEIGHT/2), width = 5)
+        secFormFrame.create_line(0, (SECOND_FORMULA_FRAME_HEIGHT/2), SECOND_FORMULA_FRAME_WIDTH, (SECOND_FORMULA_FRAME_HEIGHT/2), width = 3)
 
         #Denominator
         #SAA
