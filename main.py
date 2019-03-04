@@ -66,7 +66,7 @@ def main():
 	phe1.draw(canvas, 75, TOP_SEPERATOR_Y/2)
 
 	#Formula template text
-	formTemp = formula.Formula(3, 4, 5, 375, 75)
+	formTemp = formula.Formula(3, 4, 5, 375, 80)
 	formTemp.draw(canvas)
 
 	#Equals signs between formulas
@@ -100,7 +100,6 @@ def main():
 	#P(H)
 	canPH = label.ProbLabel(15, "HTags")
 	#(708, 580) is the middle
-	#canPH.draw(canvas, 708, 580)
 	middleLabel = canvas.create_text((773, 580), font=("Purisa", 15), text=' = {0:.2f}'.format(p_middle))
 
 	#Labels for Believe/Disbelieve and Confirmation/Disconfirmation that will are initially grey
