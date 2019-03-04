@@ -229,9 +229,9 @@ def draw(canvas, leftBox, rightBox, middleLine, widgets):
 	canvas.delete("canPH")
 
 	#Using the given coordinates create the left box and right box and the middle line
-	canvas.create_rectangle(leftBox[0], leftBox[1], leftBox[2], leftBox[3], fill="#00CC00", tags="left_rect", width=5)
-	canvas.create_rectangle(rightBox[0], rightBox[1], rightBox[2], rightBox[3], fill="#3333FF", tags="right_rect", width=5)
-	canvas.create_line(middleLine, 250, middleLine, 550, width=5, fill="red", tags="middle_line")
+	canvas.create_rectangle(leftBox[0], leftBox[1], leftBox[2], leftBox[3], fill=color1, tags="left_rect", width=5)
+	canvas.create_rectangle(rightBox[0], rightBox[1], rightBox[2], rightBox[3], fill=color2, tags="right_rect", width=5)
+	canvas.create_line(middleLine, 250, middleLine, 550, width=5, fill=color3, tags="middle_line")
 
 	#Create an open box for the left and right boxes
 	create_open_rectangle(canvas, 450, 250, 1050, 550)
@@ -244,7 +244,7 @@ def draw(canvas, leftBox, rightBox, middleLine, widgets):
 	canvas.coords(widgets[7], middleLine + 30 , 580)
 
 	#Pi chart -----------------------------------------------------
-	canvas.create_oval((75,200,275,400), fill="#3333FF", tags="pi1")
+	canvas.create_oval((75,200,275,400), fill=color2, tags="pi1")
 	#P(H|E) % is the extent
 	try:
 		p_he = (p_left * (1-p_middle)) / ((p_left * (1-p_middle)) + (p_right * (p_middle)))
@@ -254,14 +254,14 @@ def draw(canvas, leftBox, rightBox, middleLine, widgets):
 	pi_degree = p_he * 360
 	if pi_degree == 360:
 		pi_degree = 359.9
-	canvas.create_arc((75,200,275,400), fill="#00CC00", extent= (-pi_degree), tags="pi2", start=90)
+	canvas.create_arc((75,200,275,400), fill=color1, extent= (-pi_degree), tags="pi2", start=90)
 
 	#PI CHART P(H)
 	pi_r = 110
 	pi_angle = (360 * p_middle)-180
 	pi_x = pi_r * math.sin(math.radians(pi_angle))
 	pi_y = pi_r * math.sin(math.radians(90-pi_angle))
-	canvas.create_line(175, 300, pi_x+175, pi_y+300, width = 3, tags="pi_h", fill="red")
+	canvas.create_line(175, 300, pi_x+175, pi_y+300, width = 3, tags="pi_h", fill=color3)
 
 	#Update the formula entries and labels with new percentages
 	widgets[0].delete(0, END)
