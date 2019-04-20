@@ -1,3 +1,5 @@
+#TODO: Change background colors to only 2 so that it represents the rectangles in the graph
+#TODO: Change widgets array to a dictionary
 from tkinter import *
 import math
 import formula
@@ -14,30 +16,49 @@ pressed_leftBox = False
 pressed_rightBox = False
 pressed_middleLine = False
 
-#TODO:  Add colors for the Formula text
 color1 = "#90FF93" #P(E|H) green
 color2 = "#90B1FF" #P(E|NOT-H) blue
 color3 = "#FF9090" #P(H) red
 
 root = Tk()
 def main():
-	root.title("Bayesian Confirmation")
+	#Init variables
+	p_left = 0.50 #P(E|H)
+	p_middle = 0.50 #P(H)
+	p_right = 0.50 #P(E|Not-H)
 
-	#Init canvas with seperators for each section
+	TOTALHEIGHT = 300 #Height of the barGraph
+	TOTALWIDTH = 600 #Width of the barGraph
+
+	color1 = "#90FF93" #P(E|H) green
+	color2 = "#90B1FF" #P(E|NOT-H) blue
+	color3 = "#FF9090" #P(H) red
+
+	lastPressedX = 0
+	lastPressedY = 0
+
+	pressed_leftBox = False
+	pressed_rightBox = False
+	pressed_middleLine = False
+
 	TOP_SEPERATOR_Y = 160
+
+	root.title("Bayesian Confirmation")
+	#Canvas init
 	canvas = Canvas(root, width=1200, height=625)
 	canvas.pack()
-	canvas.create_line(350, TOP_SEPERATOR_Y, 350, 625, width=5)
-	canvas.create_line(0, TOP_SEPERATOR_Y, 1200, TOP_SEPERATOR_Y, width = 5)
-	#Copyright mark
-	canvas.create_text(40, 620, text= "© Lyle Crawford", fill="grey", font=("Times New Roman", 8))
 
-	#Formula Text-------------------------------------
+	#variable widgets
+	varWidgets = {}
+
+	#Draw static Objects/Lines
+	drawStatics(canvas)
+
+	#Variable Formula Text-------------------------------------
 	VARIABLE_FORMULA_FRAME_WIDTH = 275
 	VARIABLE_FORMULA_FRAME_HEIGHT = 100
 	varFormFrame = Canvas(canvas, width = VARIABLE_FORMULA_FRAME_WIDTH, \
 	height= VARIABLE_FORMULA_FRAME_HEIGHT)
-	phe1 = label.ProbLabel(23, "H|E")
 
 	#Numerator Entry1[P(E|H)] x Entry2[P(H)]
 	c_entry1 = Entry(varFormFrame, font=("Calibri", 20, "bold"), background=color1)
@@ -61,13 +82,6 @@ def main():
 	#Result = [P(H|E)]
 	text4_var = StringVar()
 	c_label5 = Label(canvas, textvariable=text4_var, font=("Calibri", 30, "bold"))
-
-	#Canvas creations with all frames
-	phe1.draw(canvas, 75, TOP_SEPERATOR_Y/2)
-
-	#Formula template text
-	formTemp = formula.Formula(3, 4, 5, 375, 80)
-	formTemp.draw(canvas)
 
 	#Equals signs between formulas
 	canvas.create_text(160, TOP_SEPERATOR_Y/2, text="=", font=("Calibri", 23, ""))
@@ -99,7 +113,6 @@ def main():
 
 	#P(H)
 	canPH = label.ProbLabel(15, "HTags")
-	#(708, 580) is the middle
 	middleLabel = canvas.create_text((773, 580), font=("Purisa", 15), text=' = {0:.2f}'.format(p_middle))
 
 	#Labels for Believe/Disbelieve and Confirmation/Disconfirmation that will are initially grey
@@ -109,6 +122,7 @@ def main():
 	disconfirmationLabel = canvas.create_text((240, 525), font=("Calibri", 17, "bold"), text="DISCONFIRMATION", fill="grey")
 
 	#Array to hold all the widgets to be changed in the draw function
+	#TODO: Change to a dictionary
 	widgets = [c_entry1, c_entry2, c_entry3, text3_var, text4_var, leftLabel, \
 	rightLabel, middleLabel, believeLabel, disbelieveLabel, confirmationLabel,\
 	disconfirmationLabel, canPH, phHighlight]
@@ -159,6 +173,21 @@ def leftClick(event, canvas):
 	#Check if user clicked the middle line
 	elif leftBox[2] - 5 <= x <= leftBox[2] + 5 and 250 <= y <= 550:
 		pressed_middleLine = True
+
+#draws static objects and lines on the input canvas
+def drawStatics(canvas):
+	#Init canvas with seperators for each section
+	TOP_SEPERATOR_Y = 160
+	canvas.create_line(350, TOP_SEPERATOR_Y, 350, 625, width=5)
+	canvas.create_line(0, TOP_SEPERATOR_Y, 1200, TOP_SEPERATOR_Y, width = 5)
+	#Copyright mark
+	canvas.create_text(40, 620, text= "© Lyle Crawford", fill="grey", font=("Times New Roman", 8))
+
+	#Formula Frame
+	phe1 = label.ProbLabel(23, "H|E")
+	phe1.draw(canvas, 75, TOP_SEPERATOR_Y/2)
+	formTemp = formula.Formula(3, 4, 5, 375, 80)
+	formTemp.draw(canvas)
 
 #Left click and drag will constantly update the boxes as the user moves their mouse while holding left click
 def leftClickDrag(event, canvas, widgets):
@@ -225,7 +254,6 @@ def draw(canvas, leftBox, rightBox, middleLine, widgets):
 	canvas.delete("pi1")
 	canvas.delete("pi2")
 	canvas.delete("pi_h")
-
 	canvas.delete("canPH")
 
 	#Using the given coordinates create the left box and right box and the middle line

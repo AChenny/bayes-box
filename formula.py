@@ -33,6 +33,7 @@ class Formula:
         secFormFrame = tkinter.Canvas(canvas, width=SECOND_FORMULA_FRAME_WIDTH, \
         height=SECOND_FORMULA_FRAME_HEIGHT)
 
+        #TODO: Change to the 2 colors blue and green
         #Background colors for the Formula text
         color1 = "#90FF93" #P(E|H) green
         color2 = "#90B1FF" #P(E|NOT-H) blue
@@ -52,7 +53,6 @@ class Formula:
         # P(H)
         ph1 = label.ProbLabel(23, "H")
         ph1.draw(secFormFrame, 240, 15)
-
 
         #Division line
         secFormFrame.create_line(0, (SECOND_FORMULA_FRAME_HEIGHT/2), SECOND_FORMULA_FRAME_WIDTH, (SECOND_FORMULA_FRAME_HEIGHT/2), width = 3)
