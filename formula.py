@@ -24,8 +24,6 @@ class Formula:
         # TODO: Have constants that will be set as multipliers or something to add
         # as the font increases or decreases
 
-
-
         #Second Formula frame
         #TODO: Use the origin position to position the text IE: +x or -x etc.
         SECOND_FORMULA_FRAME_WIDTH = 380

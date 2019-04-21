@@ -41,8 +41,6 @@ def main():
 	pressed_rightBox = False
 	pressed_middleLine = False
 
-	TOP_SEPERATOR_Y = 160
-
 	root.title("Bayesian Confirmation")
 	#Canvas init
 	canvas = Canvas(root, width=1200, height=625)
@@ -62,36 +60,19 @@ def main():
 
 	#Numerator Entry1[P(E|H)] x Entry2[P(H)]
 	c_entry1 = Entry(varFormFrame, font=("Calibri", 20, "bold"), background=color1)
-	varFormFrame.create_window(90, 25, window = c_entry1, width= 60)
 	c_entry2 = Entry(varFormFrame, font=("Calibri", 20, "bold"), background=color3)
-	varFormFrame.create_window(185, 25, window = c_entry2, width= 60)
 	c_label2 = Label(varFormFrame, text = "x", font=("Calibri", 20))
-	varFormFrame.create_window(138, 25, window= c_label2)
 
 	#Denominator SAA + (Entry3[P(E|NOT-H) x P(NOT-H)])
 	c_label3 = Label(varFormFrame, text="SAA + (", font=("Calibri", 20))
-	varFormFrame.create_window(55, 75, window = c_label3)
+
 	c_entry3 = Entry(varFormFrame, font=("Calibri", 20, "bold"), background=color2)
-	varFormFrame.create_window(130, 75, window = c_entry3, width=60)
+
 	text3_var = StringVar()
 	c_label4 = Label(varFormFrame, textvariable=text3_var, font=("Calibri", 20))
-	varFormFrame.create_window(215, 75, window = c_label4)
-	varFormFrame.create_line(0, VARIABLE_FORMULA_FRAME_HEIGHT/2, VARIABLE_FORMULA_FRAME_WIDTH,\
-	VARIABLE_FORMULA_FRAME_HEIGHT/2, width = 3)
-
 	#Result = [P(H|E)]
 	text4_var = StringVar()
 	c_label5 = Label(canvas, textvariable=text4_var, font=("Calibri", 30, "bold"))
-
-	#Equals signs between formulas
-	canvas.create_text(160, TOP_SEPERATOR_Y/2, text="=", font=("Calibri", 23, ""))
-	canvas.create_text(600, TOP_SEPERATOR_Y/2, text="=", font=("Calibri", 23, ""))
-
-	#Variable formula text
-	canvas.create_window(775, 80, window= varFormFrame)
-
-	#PHE Variable text
-	canvas.create_window(1000, TOP_SEPERATOR_Y/2, window= c_label5)
 
 	#Labels on canvas graph-----------------------------------------------
 	#Add background colors to the variable numbers on this canvas graph
@@ -101,9 +82,11 @@ def main():
 	canvas.create_rectangle(1095, 405, 1135, 425, fill=color2)
 	phHighlight = canvas.create_rectangle(770, 570, 810, 590, fill=color3)
 
+	#--------BarGraph labels init------------
 	#P(E|H)
 	canPeh = label.ProbLabel(15, "E|H")
 	canPeh.draw(canvas, 380, 370)
+
 	leftLabel = canvas.create_text((400, 405), font=("Purisa", 15), text='=\n{0:.2f}'.format(p_left), justify=CENTER)
 
 	#P(E|NOT-H)
@@ -111,7 +94,6 @@ def main():
 	canPeNotH.draw(canvas, 1082, 370)
 	rightLabel = canvas.create_text((1115, 405), font=("Purisa", 15), text='=\n{0:.2f}'.format(p_right, justify=CENTER))
 
-	#P(H)
 	canPH = label.ProbLabel(15, "HTags")
 	middleLabel = canvas.create_text((773, 580), font=("Purisa", 15), text=' = {0:.2f}'.format(p_middle))
 
@@ -122,16 +104,43 @@ def main():
 	disconfirmationLabel = canvas.create_text((240, 525), font=("Calibri", 17, "bold"), text="DISCONFIRMATION", fill="grey")
 
 	#Array to hold all the widgets to be changed in the draw function
-	#TODO: Change to a dictionary
+	varWidgets["c_entry1"] = c_entry1
+	varWidgets["c_entry2"] = c_entry2
+	varWidgets["c_entry3"] = c_entry3
+	varWidgets["c_label2"] = c_label2
+	varWidgets["c_label3"] = c_label3
+	varWidgets["c_label4"] = c_label4
+	varWidgets["c_label5"] = c_label5
+	varWidgets["text3_var"] = text3_var
+	varWidgets["text4_var"] = text4_var
+	varWidgets["varFormFrame"] = varFormFrame
+
+	varWidgets["middleLabel"] = middleLabel
+	varWidgets["leftLabel"] = leftLabel
+	varWidgets["rightLabel"] = rightLabel
+
+	#PiChart and Bayes Results
+	varWidgets["believeLabel"] = believeLabel
+	varWidgets["disbelieveLabel"] = disbelieveLabel
+	varWidgets["confirmationLabel"] = confirmationLabel
+	varWidgets["disconfirmationLabel"] = disconfirmationLabel
+
 	widgets = [c_entry1, c_entry2, c_entry3, text3_var, text4_var, leftLabel, \
 	rightLabel, middleLabel, believeLabel, disbelieveLabel, confirmationLabel,\
 	disconfirmationLabel, canPH, phHighlight]
+
 
 	#Init beginning boxes
 	left_rect = [450, 400, 750, 550]
 	right_rect = [750, 400, 1050, 550]
 	middle_line = 750
-	draw(canvas, left_rect, right_rect, middle_line, widgets)
+
+	varWidgets["left_rect"] = left_rect
+	varWidgets["right_rect"] = right_rect
+	varWidgets["middle_line"] = middle_line
+
+	#draw(canvas, left_rect, right_rect, middle_line, widgets)
+	drawVars(canvas, p_left, p_middle, p_right, varWidgets)
 
 	#Bind functions keyboard and mouse functions, details in a comment in the function itself
 	canvas.bind("<Button-1>", lambda event: leftClick(event, canvas))
@@ -188,6 +197,146 @@ def drawStatics(canvas):
 	phe1.draw(canvas, 75, TOP_SEPERATOR_Y/2)
 	formTemp = formula.Formula(3, 4, 5, 375, 80)
 	formTemp.draw(canvas)
+
+#draw variables with the current values
+def drawVars(canvas, peH, pH, peNotH, varWidgets):
+	try:
+		p_he = (p_left * (1-p_middle)) / ((p_left * (1-p_middle)) + (p_right * (p_middle)))
+	except ZeroDivisionError:
+		p_he = 0
+	#----------------Formula frame--------------------
+	TOP_SEPERATOR_Y = 160
+	varFormFrame = varWidgets.get("varFormFrame")
+
+	VARIABLE_FORMULA_FRAME_WIDTH = int(varFormFrame.config("width")[4]) #4th variable is the int width variable
+	VARIABLE_FORMULA_FRAME_HEIGHT = int(varFormFrame.config("height")[4])
+
+	c_entry1 = varWidgets.get("c_entry1")
+	c_entry2 = varWidgets.get("c_entry2")
+	c_entry3 = varWidgets.get("c_entry3")
+	c_label2 = varWidgets.get("c_label2")
+	c_label3 = varWidgets.get("c_label3")
+	c_label4 = varWidgets.get("c_label4")
+	c_label5 = varWidgets.get("c_label5")
+	text3_var = varWidgets.get("text3_var")
+	text4_var = varWidgets.get("text4_var")
+
+	varFormFrame.create_window(90, 25, window = c_entry1, width= 60)
+	varFormFrame.create_window(185, 25, window = c_entry2, width= 60)
+	varFormFrame.create_window(138, 25, window= c_label2)
+
+	varFormFrame.create_window(55, 75, window = c_label3)
+	varFormFrame.create_window(130, 75, window = c_entry3, width=60)
+	varFormFrame.create_window(215, 75, window = c_label4)
+	varFormFrame.create_line(0, VARIABLE_FORMULA_FRAME_HEIGHT/2, VARIABLE_FORMULA_FRAME_WIDTH,\
+	VARIABLE_FORMULA_FRAME_HEIGHT/2, width = 3)
+
+	#Equals signs between formulas
+	canvas.create_text(160, TOP_SEPERATOR_Y/2, text="=", font=("Calibri", 23, ""))
+	canvas.create_text(600, TOP_SEPERATOR_Y/2, text="=", font=("Calibri", 23, ""))
+
+	#Variable formula text
+	canvas.create_window(775, 80, window= varFormFrame)
+
+	#PHE Variable text
+	canvas.create_window(1000, TOP_SEPERATOR_Y/2, window= c_label5)
+
+	#Update the formula entries and labels with new percentages
+	c_entry1.delete(0, END)
+	c_entry1.insert(0, "{0:.2f}".format(p_left))
+
+	#P(E|NOT-H)
+	c_entry3.delete(0, END)
+	c_entry3.insert(0, "{0:.2f}".format(p_right))
+
+	#P(H)
+	c_entry2.delete(0, END)
+	c_entry2.insert(0, "{0:.2f}".format(1-p_middle))
+	text3_var.set('x  {0:.2f}  )'.format(p_middle))
+	text4_var.set('=  {0:.2f}'.format(p_he))
+
+	#--------------Bar Graph----------------
+	leftBox = varWidgets.get("left_rect")
+	rightBox = varWidgets.get("right_rect")
+	middleLine = varWidgets.get("middle_line")
+
+	leftLabel = varWidgets.get("leftLabel")
+	rightLabel = varWidgets.get("rightLabel")
+	middleLabel = varWidgets.get("middleLabel")
+
+	middleLine = varWidgets.get("middle_line")
+
+	canvas.delete("left_rect")
+	canvas.delete("right_rect")
+	canvas.delete("middle_line")
+	canvas.delete("canPH")
+	#Using the given coordinates create the left box and right box and the middle line
+	canvas.create_rectangle(leftBox[0], leftBox[1], leftBox[2], leftBox[3], fill=color1, tags="left_rect", width=5)
+	canvas.create_rectangle(rightBox[0], rightBox[1], rightBox[2], rightBox[3], fill=color2, tags="right_rect", width=5)
+	canvas.create_line(middleLine, 250, middleLine, 550, width=5, fill=color3, tags="middle_line")
+
+	# Create an open box for the left and right boxes
+	create_open_rectangle(canvas, 450, 250, 1050, 550)
+
+	#P(H) (Middle label)
+	canPH = label.ProbLabel(15, "HTags")
+	canPH.draw(canvas, middleLine - 30, 580)
+	canvas.itemconfigure(middleLabel, text='= {0:.2f}'.format(round(1-p_middle,2)))
+	canvas.coords(middleLabel, middleLine + 30 , 580)
+
+	#P(E|H) Variable numbers
+	leftLabel = varWidgets.get("leftLabel")
+	canvas.itemconfigure(leftLabel, text='=\n{0:.2f}'.format(round(p_left, 2)), justify=CENTER)
+
+	#P(E|Not-H) variable numbers
+	rightLabel = varWidgets.get("rightLabel")
+	canvas.itemconfigure(rightLabel, text='=\n{0:.2f}'.format(round(p_right, 2)), justify=CENTER)
+
+	#Pi chart---------------------------------------------------------
+	canvas.delete("pi1")
+	canvas.delete("pi2")
+
+	pi_degree = p_he * 360
+	if pi_degree == 360:
+		pi_degree = 359.9
+
+	canvas.create_oval((75,200,275,400), fill=color2, tags="pi1")
+	canvas.create_arc((75,200,275,400), fill=color1, extent= (-pi_degree), tags="pi2", start=90)
+
+	#PI CHART P(H)
+	pi_r = 110
+	pi_angle = (360 * p_middle)-180
+	pi_x = pi_r * math.sin(math.radians(pi_angle))
+	pi_y = pi_r * math.sin(math.radians(90-pi_angle))
+	canvas.create_line(175, 300, pi_x+175, pi_y+300, width = 3, tags="pi_h", fill=color3)
+
+	#Believe/Disbelieve and Confirmation/Disconfirmation Thresholds
+	believeLabel = varWidgets.get("believeLabel") #8
+	disbelieveLabel = varWidgets.get("disbelieveLabel") #9
+	confirmationLabel = varWidgets.get("confirmationLabel") #10
+	disconfirmationLabel = varWidgets.get("disconfirmationLabel") #11
+
+	if round(p_he, 2) == 0.50:
+		canvas.itemconfigure(believeLabel, fill="grey")
+		canvas.itemconfigure(disbelieveLabel, fill="grey")
+
+	elif p_he > 0.50:
+		canvas.itemconfigure(believeLabel, fill="black")
+		canvas.itemconfigure(disbelieveLabel, fill="grey")
+	elif p_he < 0.50:
+		canvas.itemconfigure(disbelieveLabel, fill="black")
+		canvas.itemconfigure(believeLabel, fill="grey")
+
+	if round(p_he, 2) == (round(1-p_middle, 2)):
+		canvas.itemconfigure(confirmationLabel, fill="grey")
+		canvas.itemconfigure(disconfirmationLabel, fill="grey")
+
+	elif round(p_he, 2) > (round(1-p_middle, 2)):
+		canvas.itemconfigure(confirmationLabel, fill="black")
+		canvas.itemconfigure(disconfirmationLabel, fill="grey")
+	elif round(p_he, 2) < (round(1-p_middle, 2)):
+		canvas.itemconfigure(disconfirmationLabel, fill="black")
+		canvas.itemconfigure(confirmationLabel, fill="grey")
 
 #Left click and drag will constantly update the boxes as the user moves their mouse while holding left click
 def leftClickDrag(event, canvas, widgets):
@@ -308,7 +457,6 @@ def draw(canvas, leftBox, rightBox, middleLine, widgets):
 	widgets[12].draw(canvas, middleLine - 30, 580)
 	#Background color for P(H) on graph
 	canvas.coords(widgets[13], middleLine + 20, 570, middleLine + 60, 590)
-
 
 	#Believe/Disbelieve and Confirmation/Disconfirmation Thresholds
 	if round(p_he, 2) == 0.50:
