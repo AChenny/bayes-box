@@ -68,7 +68,7 @@ def main():
 	varFormFrame.create_rectangle(88, 56, 265, 94, fill=color2, outline = color2)
 
 	#Denominator SAA + (Entry3[P(E|NOT-H) x P(NOT-H)])
-	#c_label3 = Label(varFormFrame, text="SAA + (", font=("Calibri", 20), background=color1)
+	varFormFrame.create_rectangle(10, 56, 60, 94, fill=color1, outline=color1)
 	varFormFrame.create_text(35, 75, text="SAA", font=("Calibri", 20))
 	varFormFrame.create_text(80, 75, text=" + (", font=("Calibri", 20))
 	c_entry3 = Entry(varFormFrame, font=("Calibri", 20, "bold"), background=color2)
