@@ -16,7 +16,9 @@ pressed_middleLine = False
 
 color1 = "#90FF93" #P(E|H) green
 color2 = "#90B1FF" #P(E|NOT-H) blue
-color3 = "#FF9090" #P(H) red
+color3 = "#990000" #P(H) red
+
+#newColor1 = "#"
 
 root = Tk()
 def main():
@@ -30,7 +32,7 @@ def main():
 
 	color1 = "#90FF93" #P(E|H) green
 	color2 = "#90B1FF" #P(E|NOT-H) blue
-	color3 = "#FF9090" #P(H) red
+	color3 = "#990000" #P(H) red
 
 	lastPressedX = 0
 	lastPressedY = 0
@@ -58,16 +60,21 @@ def main():
 
 	#Numerator Entry1[P(E|H)] x Entry2[P(H)]
 	c_entry1 = Entry(varFormFrame, font=("Calibri", 20, "bold"), background=color1)
-	c_entry2 = Entry(varFormFrame, font=("Calibri", 20, "bold"), background=color3)
-	c_label2 = Label(varFormFrame, text = "x", font=("Calibri", 20))
+	c_entry2 = Entry(varFormFrame, font=("Calibri", 20, "bold"), background=color1, fg=color3)
+	c_label2 = Label(varFormFrame, text = "x", font=("Calibri", 20), background=color1)
+
+	#Background highlights
+	varFormFrame.create_rectangle(45, 4, 225, 45, fill=color1, outline = color1)
+	varFormFrame.create_rectangle(88, 56, 265, 94, fill=color2, outline = color2)
 
 	#Denominator SAA + (Entry3[P(E|NOT-H) x P(NOT-H)])
-	c_label3 = Label(varFormFrame, text="SAA + (", font=("Calibri", 20))
-
+	#c_label3 = Label(varFormFrame, text="SAA + (", font=("Calibri", 20), background=color1)
+	varFormFrame.create_text(35, 75, text="SAA", font=("Calibri", 20))
+	varFormFrame.create_text(80, 75, text=" + (", font=("Calibri", 20))
 	c_entry3 = Entry(varFormFrame, font=("Calibri", 20, "bold"), background=color2)
 
 	text3_var = StringVar()
-	c_label4 = Label(varFormFrame, textvariable=text3_var, font=("Calibri", 20))
+	c_label4 = Label(varFormFrame, textvariable=text3_var, font=("Calibri", 20), background=color2)
 	#Result = [P(H|E)]
 	text4_var = StringVar()
 	c_label5 = Label(canvas, textvariable=text4_var, font=("Calibri", 30, "bold"))
@@ -88,19 +95,15 @@ def main():
 	varFormFrame.create_window(185, 25, window = c_entry2, width= 60)
 	varFormFrame.create_window(138, 25, window= c_label2)
 
-	varFormFrame.create_window(55, 75, window = c_label3)
+	#varFormFrame.create_window(55, 75, window = c_label3)
 	varFormFrame.create_window(130, 75, window = c_entry3, width=60)
 	varFormFrame.create_window(215, 75, window = c_label4)
 	varFormFrame.create_line(0, VARIABLE_FORMULA_FRAME_HEIGHT/2, VARIABLE_FORMULA_FRAME_WIDTH,\
 	VARIABLE_FORMULA_FRAME_HEIGHT/2, width = 3)
 
-	#Labels on canvas graph-----------------------------------------------
+	#Labels on bar graph-----------------------------------------------
 	#Add background colors to the variable numbers on this canvas graph
 	#color1 for P(E|H), color2 for P(E|NOT-H), and color3 for P(H)
-	#Background colors
-	canvas.create_rectangle(380, 405, 420, 425, fill=color1)
-	canvas.create_rectangle(1095, 405, 1135, 425, fill=color2)
-	phHighlight = canvas.create_rectangle(770, 570, 810, 590, fill=color3)
 
 	#--------BarGraph labels init------------
 	#P(E|H)
@@ -115,7 +118,7 @@ def main():
 	rightLabel = canvas.create_text((1115, 405), font=("Purisa", 15), text='=\n{0:.2f}'.format(p_right, justify=CENTER))
 
 	canPH = label.ProbLabel(15, "HTags")
-	middleLabel = canvas.create_text((773, 580), font=("Purisa", 15), text=' = {0:.2f}'.format(p_middle))
+	middleLabel = canvas.create_text((773, 580), font=("Purisa", 15), text=' = {0:.2f}'.format(p_middle), fill=color3)
 
 	#Labels for Believe/Disbelieve and Confirmation/Disconfirmation that will are initially grey
 	believeLabel = canvas.create_text((75, 475), font=("Calibri", 17, "bold"), text="BELIEVE", fill="grey")
@@ -128,7 +131,6 @@ def main():
 	varWidgets["c_entry2"] = c_entry2
 	varWidgets["c_entry3"] = c_entry3
 	varWidgets["c_label2"] = c_label2
-	varWidgets["c_label3"] = c_label3
 	varWidgets["c_label4"] = c_label4
 	varWidgets["c_label5"] = c_label5
 	varWidgets["text3_var"] = text3_var
@@ -225,7 +227,6 @@ def drawVars(canvas, peH, pH, peNotH, varWidgets):
 	c_entry2 = varWidgets.get("c_entry2")
 	c_entry3 = varWidgets.get("c_entry3")
 	c_label2 = varWidgets.get("c_label2")
-	c_label3 = varWidgets.get("c_label3")
 	c_label4 = varWidgets.get("c_label4")
 	c_label5 = varWidgets.get("c_label5")
 	text3_var = varWidgets.get("text3_var")
@@ -411,9 +412,9 @@ def updateAll(canvas, varWidgets):
 	entry2 = varWidgets.get("c_entry2")
 	entry3 = varWidgets.get("c_entry3")
 
-	p_left = float(entry1)
-	p_middle = 1-(float(entry2))
-	p_right = float(entry3)
+	p_left = float(entry1.get())
+	p_middle = 1-(float(entry2.get()))
+	p_right = float(entry3.get())
 
 	#MINMAX VALUES
 	if p_left >= 1:

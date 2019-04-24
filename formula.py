@@ -36,9 +36,11 @@ class Formula:
         color1 = "#90FF93" #P(E|H) green
         color2 = "#90B1FF" #P(E|NOT-H) blue
         color3 = "#FF9090" #P(H) red
-        secFormFrame.create_rectangle(90, 2, 170,35, fill=color1)
-        secFormFrame.create_rectangle(95, 45, 230, 80, fill=color2)
-        secFormFrame.create_rectangle(230, 2, 290, 35, fill=color3)
+        secFormFrame.create_rectangle(90, 2, 290, 35, fill=color1, outline = color1)
+        secFormFrame.create_rectangle(3, 45, 60, 80, fill=color1, outline = color1)
+        secFormFrame.create_rectangle(95, 45, 371, 80, fill=color2, outline = color2)
+
+        #secFormFrame.create_rectangle(230, 2, 290, 35, fill=color3)
 
         #NUMERATOR
         #P(E|H)
@@ -57,7 +59,7 @@ class Formula:
 
         #Denominator
         #SAA
-        secFormFrame.create_text(45, 60, text="SAA + (", font=("Calibri", 23, ""))
+        secFormFrame.create_text(50, 60, text="SAA + (", font=("Calibri", 23, ""))
         secFormFrame.create_text(375, 60, text=")", font=("Calibri", 23, ""))
         #P(E|Not-H)
         eNotH1 = label.ProbLabel(23, "E|Not-H")
