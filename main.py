@@ -43,7 +43,7 @@ def main():
 
 	root.title("Bayesian Confirmation")
 	#Canvas init
-	canvas = Canvas(root, width=1200, height=625)
+	canvas = Canvas(root, width=1200, height=625, highlightthickness=0)
 	canvas.pack()
 
 	#variable widgets
@@ -56,7 +56,7 @@ def main():
 	VARIABLE_FORMULA_FRAME_WIDTH = 275
 	VARIABLE_FORMULA_FRAME_HEIGHT = 100
 	varFormFrame = Canvas(canvas, width = VARIABLE_FORMULA_FRAME_WIDTH, \
-	height= VARIABLE_FORMULA_FRAME_HEIGHT)
+	height= VARIABLE_FORMULA_FRAME_HEIGHT, highlightthickness=0)
 
 	#Numerator Entry1[P(E|H)] x Entry2[P(H)]
 	c_entry1 = Entry(varFormFrame, font=("Calibri", 20, "bold"), background=color1)
@@ -141,6 +141,8 @@ def main():
 	varWidgets["leftLabel"] = leftLabel
 	varWidgets["rightLabel"] = rightLabel
 	varWidgets["canPH"] = canPH
+	varWidgets["canPeh"] = canPeh
+	varWidgets["canPeNotH"] = canPeNotH
 	#PiChart and Bayes Results
 	varWidgets["believeLabel"] = believeLabel
 	varWidgets["disbelieveLabel"] = disbelieveLabel
@@ -260,6 +262,8 @@ def drawVars(canvas, peH, pH, peNotH, varWidgets):
 	canvas.delete("right_rect")
 	canvas.delete("middle_line")
 	canvas.delete("canPH")
+	canvas.delete("canPeH")
+	canvas.delete("canPeNotH")
 	#Using the given coordinates create the left box and right box and the middle line
 	canvas.create_rectangle(leftBox[0], leftBox[1], leftBox[2], leftBox[3], fill=color1, tags="left_rect", width=5)
 	canvas.create_rectangle(rightBox[0], rightBox[1], rightBox[2], rightBox[3], fill=color2, tags="right_rect", width=5)
@@ -271,11 +275,18 @@ def drawVars(canvas, peH, pH, peNotH, varWidgets):
 	canvas.itemconfigure(middleLabel, text='= {0:.2f}'.format(round(1-p_middle,2)))
 	canvas.coords(middleLabel, middleLine + 30 , 580)
 
+
 	#P(E|H) Variable numbers
+	canvas.coords(leftLabel, 400 , leftBox[1]- 10)
+	canPeh = label.ProbLabel(15, "E|H")
+	canPeh.draw(canvas, 380, leftBox[1] - 50)
 	leftLabel = varWidgets.get("leftLabel")
 	canvas.itemconfigure(leftLabel, text='=\n{0:.2f}'.format(round(p_left, 2)), justify=CENTER)
 
 	#P(E|Not-H) variable numbers
+	canvas.coords(rightLabel, 1115, rightBox[1]- 10)
+	canPeNotH = label.ProbLabel(15, "E|Not-H")
+	canPeNotH.draw(canvas, 1082, rightBox[1] - 50)
 	rightLabel = varWidgets.get("rightLabel")
 	canvas.itemconfigure(rightLabel, text='=\n{0:.2f}'.format(round(p_right, 2)), justify=CENTER)
 
