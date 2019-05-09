@@ -18,58 +18,52 @@ class Formula:
 
     def draw(self, canvas):
         #Frame for whole Formula
-        FRAME_WIDTH = 900
+        FRAME_WIDTH = 950
         FRAME_HEIGHT = 150
 
-        # TODO: Have constants that will be set as multipliers or something to add
-        # as the font increases or decreases
-
         #Second Formula frame
-        #TODO: Use the origin position to position the text IE: +x or -x etc.
-        SECOND_FORMULA_FRAME_WIDTH = 380
-        SECOND_FORMULA_FRAME_HEIGHT = 80
+        SECOND_FORMULA_FRAME_WIDTH = 450
+        SECOND_FORMULA_FRAME_HEIGHT = 150
         secFormFrame = tkinter.Canvas(canvas, width=SECOND_FORMULA_FRAME_WIDTH, \
         height=SECOND_FORMULA_FRAME_HEIGHT)
 
-        #TODO: Change to the 2 colors blue and green
         #Background colors for the Formula text
         color1 = "#90FF93" #P(E|H) green
         color2 = "#90B1FF" #P(E|NOT-H) blue
-        color3 = "#FF9090" #P(H) red
-        secFormFrame.create_rectangle(90, 2, 290, 35, fill=color1, outline = color1)
-        secFormFrame.create_rectangle(3, 45, 60, 80, fill=color1, outline = color1)
-        secFormFrame.create_rectangle(95, 45, 371, 80, fill=color2, outline = color2)
+        color3 = "#B22222" #P(H) red
+        secFormFrame.create_rectangle(90, (SECOND_FORMULA_FRAME_HEIGHT/2), 290, (SECOND_FORMULA_FRAME_HEIGHT/2) - 35, fill=color1, outline = color1)
+        secFormFrame.create_rectangle(3, (SECOND_FORMULA_FRAME_HEIGHT/2), 60, (SECOND_FORMULA_FRAME_HEIGHT/2) + 40, fill=color1, outline = color1)
+        secFormFrame.create_rectangle(95, (SECOND_FORMULA_FRAME_HEIGHT/2), 371, (SECOND_FORMULA_FRAME_HEIGHT/2) + 40, fill=color2, outline = color2)
 
-        #secFormFrame.create_rectangle(230, 2, 290, 35, fill=color3)
 
         #NUMERATOR
         #P(E|H)
         peh1 = label.ProbLabel(23, "E|H")
-        peh1.draw(secFormFrame, 100, 15)
+        peh1.draw(secFormFrame, 100, (SECOND_FORMULA_FRAME_HEIGHT/2) - 20)
 
         # x
-        secFormFrame.create_text(200, 15, text="x", font=("Calibri", 23, ""))
+        secFormFrame.create_text(200, (SECOND_FORMULA_FRAME_HEIGHT/2) - 20, text="x", font=("Calibri", 23, ""))
 
         # P(H)
         ph1 = label.ProbLabel(23, "H")
-        ph1.draw(secFormFrame, 240, 15)
+        ph1.draw(secFormFrame, 240, (SECOND_FORMULA_FRAME_HEIGHT/2) - 20)
 
         #Division line
         secFormFrame.create_line(0, (SECOND_FORMULA_FRAME_HEIGHT/2), SECOND_FORMULA_FRAME_WIDTH, (SECOND_FORMULA_FRAME_HEIGHT/2), width = 3)
 
         #Denominator
         #SAA
-        secFormFrame.create_text(50, 60, text="SAA + (", font=("Calibri", 23, ""))
-        secFormFrame.create_text(375, 60, text=")", font=("Calibri", 23, ""))
+        secFormFrame.create_text(50, (SECOND_FORMULA_FRAME_HEIGHT/2) + 20, text="SAA + (", font=("Calibri", 23, ""))
+        secFormFrame.create_text(375, (SECOND_FORMULA_FRAME_HEIGHT/2) + 20, text=")", font=("Calibri", 23, ""))
         #P(E|Not-H)
         eNotH1 = label.ProbLabel(23, "E|Not-H")
-        eNotH1.draw(secFormFrame, 105, 60)
+        eNotH1.draw(secFormFrame, 105, (SECOND_FORMULA_FRAME_HEIGHT/2) + 20)
 
-        secFormFrame.create_text(245, 60, text="x", font=("Calibri", 23, ""))
+        secFormFrame.create_text(245, (SECOND_FORMULA_FRAME_HEIGHT/2) + 20, text="x", font=("Calibri", 23, ""))
 
         #P(Not-H)
         notH1 = label.ProbLabel(23, "Not-H")
-        notH1.draw(secFormFrame, 270, 60)
+        notH1.draw(secFormFrame, 270, (SECOND_FORMULA_FRAME_HEIGHT/2) + 20)
 
         canvas.create_window(self.x, self.y, window=secFormFrame)
 

@@ -16,7 +16,7 @@ pressed_middleLine = False
 
 color1 = "#90FF93" #P(E|H) green
 color2 = "#90B1FF" #P(E|NOT-H) blue
-color3 = "#990000" #P(H) red
+color3 = "#B22222" #P(H) red
 
 #newColor1 = "#"
 
@@ -32,7 +32,7 @@ def main():
 
 	color1 = "#90FF93" #P(E|H) green
 	color2 = "#90B1FF" #P(E|NOT-H) blue
-	color3 = "#990000" #P(H) red
+	color3 = "#B22222" #P(H) red
 
 	lastPressedX = 0
 	lastPressedY = 0
@@ -80,10 +80,6 @@ def main():
 	c_label5 = Label(canvas, textvariable=text4_var, font=("Calibri", 30, "bold"))
 
 	TOP_SEPERATOR_Y = 160
-
-	#Equals signs between formulas
-	canvas.create_text(160, TOP_SEPERATOR_Y/2, text="=", font=("Calibri", 23, ""))
-	canvas.create_text(600, TOP_SEPERATOR_Y/2, text="=", font=("Calibri", 23, ""))
 
 	#Variable formula text
 	canvas.create_window(775, 80, window= varFormFrame)
@@ -206,12 +202,16 @@ def drawStatics(canvas):
 	TOP_SEPERATOR_Y = 160
 	canvas.create_line(350, TOP_SEPERATOR_Y, 350, 625, width=5)
 	canvas.create_line(0, TOP_SEPERATOR_Y, 1200, TOP_SEPERATOR_Y, width = 5)
+
+	#Equals signs between formulas
+	canvas.create_text(120, TOP_SEPERATOR_Y/2, text="=", font=("Calibri", 23, ""))
+	canvas.create_text(600, TOP_SEPERATOR_Y/2, text="=", font=("Calibri", 23, ""))
 	#Copyright mark
 	canvas.create_text(40, 620, text= "© Lyle Crawford", fill="grey", font=("Times New Roman", 8))
 
 	#Formula Frame
 	phe1 = label.ProbLabel(23, "H|E")
-	phe1.draw(canvas, 75, TOP_SEPERATOR_Y/2)
+	phe1.draw(canvas, 35, TOP_SEPERATOR_Y/2)
 	formTemp = formula.Formula(3, 4, 5, 375, 80)
 	formTemp.draw(canvas)
 	#Bar graph
