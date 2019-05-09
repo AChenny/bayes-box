@@ -423,6 +423,8 @@ def updateAll(canvas, varWidgets):
 	entry2 = varWidgets.get("c_entry2")
 	entry3 = varWidgets.get("c_entry3")
 
+	print(entry1.get())
+
 	p_left = float(entry1.get())
 	p_middle = 1-(float(entry2.get()))
 	p_right = float(entry3.get())
@@ -444,14 +446,17 @@ def updateAll(canvas, varWidgets):
 		p_right = 0
 
 	#Change rectangle coords after getting new values from the entries
-	middle = TOTALWIDTH * (1-p_middle) + 450
+	middleLine = TOTALWIDTH * (1-p_middle) + 450
 	leftHeight = TOTALHEIGHT * (1-p_left) + 250
 	rightHeight = TOTALHEIGHT * (1-p_right) + 250
 
-	left_rect = [450, leftHeight, middle, 550]
-	right_rect = [middle, rightHeight, 1050, 550]
+	leftBox = [450, leftHeight, middleLine, 550]
+	rightBox = [middleLine, rightHeight, 1050, 550]
+	varWidgets["left_rect"] = leftBox
+	varWidgets["right_rect"] = rightBox
+	varWidgets["middle_line"] = middleLine
 
-	drawVars(canvas, left_rect, right_rect, middle, varWidgets)
+	drawVars(canvas, p_left, p_middle, p_right, varWidgets)
 
 #Change cursor on motion over drag-able areas
 def changeCursor(event, root, canvas):
