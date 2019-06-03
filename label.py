@@ -40,7 +40,7 @@ class ProbLabel:
         elif (self.text == "E|Not-H"):
             text1X = x
             text2X = text1X + self.fontSize
-            text3X = text2X + round(self.fontSize/1.5)
+            text3X = text2X + round(self.fontSize/1.4)
             text4X = text3X + round(self.fontSize * 2)
             canvas.create_text(text1X, y, text="P", font=("Calibri", self.fontSize, "bold italic"), tags="canPeNotH")
             canvas.create_text(text2X, y, text="(E", font=("Calibri", self.fontSize, ""), tags="canPeNotH")
@@ -50,15 +50,15 @@ class ProbLabel:
         #P(NOT-H)
         elif (self.text == "Not-H"):
             text1X = x
-            text2X = text1X + round(self.fontSize * 2.4)
+            text2X = text1X + round(self.fontSize * 2.5)
             canvas.create_text(text1X, y, text="P", font=("Calibri", self.fontSize, "bold italic"))
             canvas.create_text(text2X, y, text="(Not-H)", font=("Calibri", self.fontSize, ""))
 
         #P(H|E)
         elif (self.text == "H|E"):
             text1X = x
-            text2X = text1X + self.fontSize
-            text3X = text2X + round(self.fontSize/1.4)
+            text2X = (text1X + self.fontSize) * 1.05
+            text3X = text2X + round(self.fontSize/1.25)
             text4X = text3X + round(self.fontSize * 0.65)
             canvas.create_text(text1X, y, text="P", font=("Calibri", self.fontSize, "bold italic"))
             canvas.create_text(text2X, y, text="(H", font=("Calibri", self.fontSize, ""))

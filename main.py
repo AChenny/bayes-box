@@ -64,17 +64,17 @@ def main():
 	c_label2 = Label(varFormFrame, text = "x", font=("Calibri", 20), background=color1)
 
 	#Background highlights
-	varFormFrame.create_rectangle(45, 4, 225, 45, fill=color1, outline = color1)
-	varFormFrame.create_rectangle(88, 56, 265, 94, fill=color2, outline = color2)
+	varFormFrame.create_rectangle(45, 4, 225, VARIABLE_FORMULA_FRAME_HEIGHT/2, fill=color1, outline = color1)
+	varFormFrame.create_rectangle(88, VARIABLE_FORMULA_FRAME_HEIGHT/2, 280, 94, fill=color2, outline = color2)
+	varFormFrame.create_rectangle(10, VARIABLE_FORMULA_FRAME_HEIGHT/2, 60, 94, fill=color1, outline=color1)
 
 	#Denominator SAA + (Entry3[P(E|NOT-H) x P(NOT-H)])
-	varFormFrame.create_rectangle(10, 56, 60, 94, fill=color1, outline=color1)
-	varFormFrame.create_text(35, 75, text="SAA", font=("Calibri", 20))
-	varFormFrame.create_text(80, 75, text=" + (", font=("Calibri", 20))
+	varFormFrame.create_text(35, 70, text="SAA", font=("Calibri", 23))
+	varFormFrame.create_text(80, 70, text=" + (", font=("Calibri", 23))
 	c_entry3 = Entry(varFormFrame, font=("Calibri", 20, "bold"), background=color2)
 
 	text3_var = StringVar()
-	c_label4 = Label(varFormFrame, textvariable=text3_var, font=("Calibri", 20), background=color2)
+	c_label4 = Label(varFormFrame, textvariable=text3_var, font=("Calibri", 20, "bold"), background=color2, pady= 0)
 	#Result = [P(H|E)]
 	text4_var = StringVar()
 	c_label5 = Label(canvas, textvariable=text4_var, font=("Calibri", 30, "bold"))
@@ -92,10 +92,12 @@ def main():
 	varFormFrame.create_window(138, 25, window= c_label2)
 
 	#varFormFrame.create_window(55, 75, window = c_label3)
-	varFormFrame.create_window(130, 75, window = c_entry3, width=60)
-	varFormFrame.create_window(215, 75, window = c_label4)
+
+	varFormFrame.create_window(130, 72, window = c_entry3, width=60)
+	varFormFrame.create_window(215, 70, window = c_label4)
 	varFormFrame.create_line(0, VARIABLE_FORMULA_FRAME_HEIGHT/2, VARIABLE_FORMULA_FRAME_WIDTH,\
 	VARIABLE_FORMULA_FRAME_HEIGHT/2, width = 3)
+
 
 	#Labels on bar graph-----------------------------------------------
 	#Add background colors to the variable numbers on this canvas graph
@@ -205,7 +207,7 @@ def drawStatics(canvas):
 
 	#Equals signs between formulas
 	canvas.create_text(120, TOP_SEPERATOR_Y/2, text="=", font=("Calibri", 23, ""))
-	canvas.create_text(600, TOP_SEPERATOR_Y/2, text="=", font=("Calibri", 23, ""))
+	canvas.create_text(620, TOP_SEPERATOR_Y/2, text="=", font=("Calibri", 23, ""))
 	#Copyright mark
 	canvas.create_text(40, 620, text= "© Lyle Crawford", fill="grey", font=("Times New Roman", 8))
 
@@ -229,7 +231,7 @@ def drawVars(canvas, peH, pH, peNotH, varWidgets):
 	c_entry2 = varWidgets.get("c_entry2")
 	c_entry3 = varWidgets.get("c_entry3")
 	c_label2 = varWidgets.get("c_label2")
-	c_label4 = varWidgets.get("c_label4")
+	#c_label4 = varWidgets.get("c_label4")
 	c_label5 = varWidgets.get("c_label5")
 	text3_var = varWidgets.get("text3_var")
 	text4_var = varWidgets.get("text4_var")
@@ -316,26 +318,26 @@ def drawVars(canvas, peH, pH, peNotH, varWidgets):
 	disconfirmationLabel = varWidgets.get("disconfirmationLabel")
 
 	if round(p_he, 2) == 0.50:
-		canvas.itemconfigure(believeLabel, fill="grey")
-		canvas.itemconfigure(disbelieveLabel, fill="grey")
+		canvas.itemconfigure(believeLabel, fill="#C0C0C0")
+		canvas.itemconfigure(disbelieveLabel, fill="#C0C0C0")
 
 	elif p_he > 0.50:
 		canvas.itemconfigure(believeLabel, fill="black")
-		canvas.itemconfigure(disbelieveLabel, fill="grey")
+		canvas.itemconfigure(disbelieveLabel, fill="#C0C0C0")
 	elif p_he < 0.50:
 		canvas.itemconfigure(disbelieveLabel, fill="black")
-		canvas.itemconfigure(believeLabel, fill="grey")
+		canvas.itemconfigure(believeLabel, fill="#C0C0C0")
 
 	if round(p_he, 2) == (round(1-p_middle, 2)):
-		canvas.itemconfigure(confirmationLabel, fill="grey")
-		canvas.itemconfigure(disconfirmationLabel, fill="grey")
+		canvas.itemconfigure(confirmationLabel, fill="#C0C0C0")
+		canvas.itemconfigure(disconfirmationLabel, fill="#C0C0C0")
 
 	elif round(p_he, 2) > (round(1-p_middle, 2)):
 		canvas.itemconfigure(confirmationLabel, fill="black")
-		canvas.itemconfigure(disconfirmationLabel, fill="grey")
+		canvas.itemconfigure(disconfirmationLabel, fill="#C0C0C0")
 	elif round(p_he, 2) < (round(1-p_middle, 2)):
 		canvas.itemconfigure(disconfirmationLabel, fill="black")
-		canvas.itemconfigure(confirmationLabel, fill="grey")
+		canvas.itemconfigure(confirmationLabel, fill="#C0C0C0")
 
 #Left click and drag will constantly update the boxes as the user moves their mouse while holding left click
 def leftClickDrag(event, canvas, varWidgets):
