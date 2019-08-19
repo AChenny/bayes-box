@@ -32,34 +32,34 @@ class Formula:
         color2 = "#90B1FF" #P(E|NOT-H) blue
         color3 = "#B22222" #P(H) red
         secFormFrame.create_rectangle(130, (SECOND_FORMULA_FRAME_HEIGHT/2), 330, (SECOND_FORMULA_FRAME_HEIGHT/2) - 35, fill=color1, outline = color1)
-        secFormFrame.create_rectangle(48, (SECOND_FORMULA_FRAME_HEIGHT/2), 105, (SECOND_FORMULA_FRAME_HEIGHT/2) + 40, fill=color1, outline = color1)
-        secFormFrame.create_rectangle(145, (SECOND_FORMULA_FRAME_HEIGHT/2), 421, (SECOND_FORMULA_FRAME_HEIGHT/2) + 40, fill=color2, outline = color2)
+        secFormFrame.create_rectangle(28, (SECOND_FORMULA_FRAME_HEIGHT/2), 85, (SECOND_FORMULA_FRAME_HEIGHT/2) + 40, fill=color1, outline = color1)
+        secFormFrame.create_rectangle(125, (SECOND_FORMULA_FRAME_HEIGHT/2), 435, (SECOND_FORMULA_FRAME_HEIGHT/2) + 40, fill=color2, outline = color2)
 
 
         #NUMERATOR
         #P(E|H)
         peh1 = label.ProbLabel(23, "E|H")
-        peh1.draw(secFormFrame, 140, (SECOND_FORMULA_FRAME_HEIGHT/2) - 20)
+        peh1.draw(secFormFrame, 150, (SECOND_FORMULA_FRAME_HEIGHT/2) - 20)
 
         # x
-        secFormFrame.create_text(240, (SECOND_FORMULA_FRAME_HEIGHT/2) - 20, text="x", font=("Calibri", 23, ""))
+        secFormFrame.create_text(245, (SECOND_FORMULA_FRAME_HEIGHT/2) - 20, text="x", font=("Calibri", 23, ""))
 
         # P(H)
         ph1 = label.ProbLabel(23, "H")
-        ph1.draw(secFormFrame, 280, (SECOND_FORMULA_FRAME_HEIGHT/2) - 20)
+        ph1.draw(secFormFrame, 275, (SECOND_FORMULA_FRAME_HEIGHT/2) - 20)
 
         #Division line
         secFormFrame.create_line(0, (SECOND_FORMULA_FRAME_HEIGHT/2), SECOND_FORMULA_FRAME_WIDTH, (SECOND_FORMULA_FRAME_HEIGHT/2), width = 3)
 
         #Denominator
         #SAA
-        secFormFrame.create_text(95, (SECOND_FORMULA_FRAME_HEIGHT/2) + 20, text="SAA + (", font=("Calibri", 23, ""))
-        secFormFrame.create_text(435, (SECOND_FORMULA_FRAME_HEIGHT/2) + 20, text=")", font=("Calibri", 23, ""))
+        secFormFrame.create_text(75, (SECOND_FORMULA_FRAME_HEIGHT/2) + 20, text="SAA + (", font=("Calibri", 23, ""))
+        secFormFrame.create_text(440, (SECOND_FORMULA_FRAME_HEIGHT/2) + 20, text=")", font=("Calibri", 23, ""))
         #P(E|Not-H)
         eNotH1 = label.ProbLabel(23, "E|Not-H")
-        eNotH1.draw(secFormFrame, 155, (SECOND_FORMULA_FRAME_HEIGHT/2) + 20)
+        eNotH1.draw(secFormFrame, 135, (SECOND_FORMULA_FRAME_HEIGHT/2) + 20)
 
-        secFormFrame.create_text(295, (SECOND_FORMULA_FRAME_HEIGHT/2) + 20, text="x", font=("Calibri", 23, ""))
+        secFormFrame.create_text(285, (SECOND_FORMULA_FRAME_HEIGHT/2) + 20, text="x", font=("Calibri", 23, ""))
 
         #P(Not-H)
         notH1 = label.ProbLabel(23, "Not-H")

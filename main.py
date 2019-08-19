@@ -65,7 +65,7 @@ def main():
 
 	#Background highlights
 	varFormFrame.create_rectangle(45, 4, 225, VARIABLE_FORMULA_FRAME_HEIGHT/2, fill=color1, outline = color1)
-	varFormFrame.create_rectangle(88, VARIABLE_FORMULA_FRAME_HEIGHT/2, 280, 94, fill=color2, outline = color2)
+	varFormFrame.create_rectangle(88, VARIABLE_FORMULA_FRAME_HEIGHT/2, 265, 94, fill=color2, outline = color2)
 	varFormFrame.create_rectangle(10, VARIABLE_FORMULA_FRAME_HEIGHT/2, 60, 94, fill=color1, outline=color1)
 
 	#Denominator SAA + (Entry3[P(E|NOT-H) x P(NOT-H)])
@@ -77,15 +77,15 @@ def main():
 	c_label4 = Label(varFormFrame, textvariable=text3_var, font=("Calibri", 20, "bold"), background=color2, pady= 0)
 	#Result = [P(H|E)]
 	text4_var = StringVar()
-	c_label5 = Label(canvas, textvariable=text4_var, font=("Calibri", 30, "bold"))
+	pheVarLabel = Label(canvas, textvariable=text4_var, font=("Calibri", 25, "bold"))
 
 	TOP_SEPERATOR_Y = 160
 
 	#Variable formula text
-	canvas.create_window(775, 80, window= varFormFrame)
+	canvas.create_window(810, 80, window= varFormFrame)
 
 	#PHE Variable text
-	canvas.create_window(1000, TOP_SEPERATOR_Y/2, window= c_label5)
+	canvas.create_window(1030, TOP_SEPERATOR_Y/2, window= pheVarLabel)
 
 	varFormFrame.create_window(90, 25, window = c_entry1, width= 60)
 	varFormFrame.create_window(185, 25, window = c_entry2, width= 60)
@@ -130,7 +130,7 @@ def main():
 	varWidgets["c_entry3"] = c_entry3
 	varWidgets["c_label2"] = c_label2
 	varWidgets["c_label4"] = c_label4
-	varWidgets["c_label5"] = c_label5
+	varWidgets["pheVarLabel"] = pheVarLabel
 	varWidgets["text3_var"] = text3_var
 	varWidgets["text4_var"] = text4_var
 	varWidgets["varFormFrame"] = varFormFrame
@@ -207,7 +207,7 @@ def drawStatics(canvas):
 
 	#Equals signs between formulas
 	canvas.create_text(120, TOP_SEPERATOR_Y/2, text="=", font=("Calibri", 23, ""))
-	canvas.create_text(620, TOP_SEPERATOR_Y/2, text="=", font=("Calibri", 23, ""))
+	canvas.create_text(635, TOP_SEPERATOR_Y/2, text="=", font=("Calibri", 23, ""))
 	#Copyright mark
 	canvas.create_text(40, 620, text= "© Lyle Crawford", fill="grey", font=("Times New Roman", 8))
 
@@ -232,7 +232,7 @@ def drawVars(canvas, peH, pH, peNotH, varWidgets):
 	c_entry3 = varWidgets.get("c_entry3")
 	c_label2 = varWidgets.get("c_label2")
 	#c_label4 = varWidgets.get("c_label4")
-	c_label5 = varWidgets.get("c_label5")
+	pheVarLabel = varWidgets.get("pheVarLabel")
 	text3_var = varWidgets.get("text3_var")
 	text4_var = varWidgets.get("text4_var")
 
@@ -249,7 +249,7 @@ def drawVars(canvas, peH, pH, peNotH, varWidgets):
 	c_entry2.delete(0, END)
 	c_entry2.insert(0, "{0:.2f}".format(1-p_middle))
 	text3_var.set('x  {0:.2f}  )'.format(p_middle))
-	text4_var.set('=  {0:.2f}'.format(p_he))
+	text4_var.set('=    {0:.2f}'.format(p_he))
 
 	#--------------Bar Graph----------------
 	leftBox = varWidgets.get("left_rect")
